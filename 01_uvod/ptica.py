@@ -3,13 +3,12 @@ from simanim import *
 def setup(m):
     PixelsPerUnit(5)
     ViewBox((-10, -30),160, 90)
-    FramesPerSecond(15)
+    FramesPerSecond(20)
     UpdatesPerFrame(1)
     BackgroundColor('#99ccff')
 
     m.x0 = InputFloat(10,(0,40))
     m.y = InputFloat(15,(5,30))
-
     m.v = InputList(10,[5,10,15,20])
 
     m.x = m.x0
