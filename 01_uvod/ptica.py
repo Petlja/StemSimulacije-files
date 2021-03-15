@@ -3,7 +3,7 @@ from simanim import *
 def setup(m):
     PixelsPerUnit(5)
     ViewBox((-10, -30),160, 90)
-    FramesPerSecond(20)
+    FramesPerSecond(15)
     UpdatesPerFrame(1)
     BackgroundColor('#99ccff')
 
@@ -14,7 +14,7 @@ def setup(m):
     m.x = m.x0
 
 def update(m):
-    m.x = m.x + m.v * m.dt
+    m.x += m.v * m.dt
 
     if m.t >= 5:
         Finish()
@@ -34,22 +34,18 @@ def draw(m):
     slika_h = slika_w * 55.4/78.7
     slika_x = m.x - slika_w/2
     slika_y = m.y - slika_h/5
-    ptica = Image('ptica-leti-udesno.svg', (slika_x, slika_y),  slika_w, slika_h)
-
+    ptica = Image('ptica-leti-udesno.svg', (slika_x, slika_y), slika_w, slika_h)
     vec_v = Arrow((m.x, m.y), (m.x + m.v, m.y))
     vec_v.pen_color = '#0000a0'
     vec_v.line_width = 0.5
     vec_v.head_len = 2
-
     Draw(ptica, vec_v)
-
 
     t_x = Text((0, 55), f'x ={m.x:5.1f}')
     t_x.pen_color = '#000000'
     t_t = Text((0, 50), f't ={m.t:5.1f}')
     t_v = Text((0, 45), f'v ={m.v:5.1f}')
     t_v.pen_color = vec_v.pen_color
-
     Draw(t_x, t_t, t_v)
 
 Run(setup, update, draw)
