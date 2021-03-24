@@ -2,7 +2,7 @@ from simanim import *
 
 def setup(m):
     PixelsPerUnit(5)
-    ViewBox((-10, -30),160, 90)
+    ViewBox((-10, -30),150, 90)
     FramesPerSecond(15)
     UpdatesPerFrame(1)
     BackgroundColor('#99ccff')
@@ -43,9 +43,10 @@ def draw(m):
 
     t_x = Text((0, 55), f'x ={m.x:5.1f}')
     t_x.pen_color = '#000000'
-    t_t = Text((0, 50), f't ={m.t:5.1f}')
-    t_v = Text((0, 45), f'v ={m.v:5.1f}')
+    t_y = Text((0, 50), f'y ={m.y:5.1f}')
+    t_t = Text((0, 45), f't ={m.t:5.1f}')
+    t_v = Text((0, 40), f'v ={m.v:5.1f}')
     t_v.pen_color = vec_v.pen_color
-    Draw(t_x, t_t, t_v)
+    Draw(t_x, t_y, t_t, t_v)
 
 Run(setup, update, draw)
