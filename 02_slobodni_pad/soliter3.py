@@ -50,11 +50,11 @@ def draw(m):
         prozor.fill_color = '#BBBBBB'
         Draw(prozor)
 
-    t_m = Text((90, 50), f'm ={m.m:5.2f}kg')
+    t_m = Text((90, 50), f'm ={m.m:6.3f}kg')
     t_m.pen_color = '#000000'
     t_g = Text((90, 45), f'g ={m.g:5.2f}m/s²')
-    t_t = Text((90, 40), f't ={m.t:5.2f}s')
-    t_h = Text((90, 35), f'h ={m.h:5.2f}m')
+    t_t = Text((90, 40), f't ={m.t:6.3f}s')
+    t_h = Text((90, 35), f'h ={m.h:6.3f}m')
 
     Draw(t_m, t_g, t_t, t_h)
 
