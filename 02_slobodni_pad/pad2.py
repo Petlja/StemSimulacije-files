@@ -11,10 +11,10 @@ def setup(m):
 
 def update(m):
     dv = m.g * m.dt 
-    dh = - m.v * m.dt
+    dh = - (m.v * m.dt + m.g * m.dt ** 2 / 2)
 
-    m.h += dh
     m.v += dv
+    m.h += dh
 
     if m.h <= 0:
         m.h = 0
