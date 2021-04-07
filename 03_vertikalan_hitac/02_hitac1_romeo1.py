@@ -11,8 +11,8 @@ h1 = 2.8 # Visina Julijine sake
 def setup(m):
     PixelsPerUnit(100)
     ViewBox((0, 0), 2.6, 4)
-    FramesPerSecond(60)
-    UpdatesPerFrame(10)
+    FramesPerSecond(30)
+    UpdatesPerFrame(1)
 
     m.v0 = InputFloat(7.1, (1, 9))
 
@@ -22,8 +22,12 @@ def setup(m):
 
 
 def update(m):
-    m.h = max(h0, m.h + m.v * m.dt) # ne nize od Romeove ruke
-    m.v -= m.g * m.dt 
+    v_novo = m.v - m.g * m.dt
+    h_novo = m.h + m.v * m.dt - m.g * m.dt * m.dt / 2
+    if h_novo < h0:
+        h_novo = h0 # ne nize od Romeove ruke
+
+    m.h, m.v = h_novo, v_novo
 
     # brojevi u uslovu su odabrani procenom
     # koliko daleko ruza sme da bude i koliko brzo sme 
@@ -36,8 +40,6 @@ def draw(m):
     scena = Image("romeo1.png", (0, 0), scena_w, scena_h)
     ruza = Image("rose.png", (1.6 - ruza_w/2, m.h - ruza_h/2), ruza_w, ruza_h)
 
-    Draw(scena, ruza)
-
     tekst_t = Text((1.4, 3.7), f't ={m.t:6.2f}s')
     tekst_t.pen_color = '#000000'
     tekst_t.font_size = 0.15
@@ -45,6 +47,6 @@ def draw(m):
     tekst_h = Text((1.4, 3.3), f'h ={(m.h-h0):6.2f}m')
     tekst_h1 = Text((1.4, 3.1), f'h1 ={(h1-h0):5.2f}m')
 
-    Draw(tekst_t, tekst_v, tekst_h, tekst_h1)
+    Draw(scena, ruza, tekst_t, tekst_v, tekst_h, tekst_h1)
 
 Run(setup, update, draw)
