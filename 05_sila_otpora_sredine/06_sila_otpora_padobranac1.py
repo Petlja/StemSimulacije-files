@@ -66,7 +66,7 @@ def update(m):
 
     m.v += m.a * dt
 
-    if abs(m.a) < 0.1:
+    if abs(m.a) < 0.001:
         m.s_ravn += dh
         if m.s_ravn >= 3.3:
             Finish()

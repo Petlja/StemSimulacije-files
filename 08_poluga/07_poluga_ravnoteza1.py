@@ -43,12 +43,12 @@ def draw(m):
     ugao = 0.1
     w_koso, h_koso = 0.995, 0.0998
     poluga = Image("lever.png", (x0 - krak_tereta * 1.1, y0), poluga_w, poluga_h)
-    if m.rez_moment < -1e-2: # preteze desno
+    if m.rez_moment < -0.01: # preteze desno
         xt, yt = x0 - krak_tereta * w_koso, y0 + krak_tereta * h_koso
         xs, ys = x0 + m.крак * w_koso, y0 - m.крак * h_koso
         with Rotate((x0, y0), ugao):
             Draw(poluga)
-    elif m.rez_moment > 1e-2: # preteze levo
+    elif m.rez_moment > 0.01: # preteze levo
         xt, yt = x0 - krak_tereta * w_koso, y0 - krak_tereta * h_koso
         xs, ys = x0 + m.крак * w_koso, y0 + m.крак * h_koso
         with Rotate((x0, y0), -ugao):

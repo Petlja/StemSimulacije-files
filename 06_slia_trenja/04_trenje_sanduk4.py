@@ -31,8 +31,8 @@ def update(m):
 
     if m.update_count % 5 == 0:
         # dopunjavamo tabelu
-        if abs(m.F - round(m.F)) < 1e-3:
-            if len(m.tabela) > 0 and m.tabela[-1][0] + 1e-3 < maxtr < m.F - 1e-3:
+        if abs(m.F - round(m.F)) < 0.001:
+            if len(m.tabela) > 0 and m.tabela[-1][0] + 0.001 < maxtr < m.F - 0.001:
                 m.tabela += [(maxtr, -maxtr)]
             m.tabela += [(m.F, m.Ftr)]
 
@@ -48,12 +48,12 @@ def update(m):
 
 
 def crtaj_vektor(x, y, dx, dy, boja):
-    dd = dx*dx + dy*dy
-    if dd > 1e-6:
+    d = math.sqrt(dx*dx + dy*dy)
+    if d > 0.001:
         vec = Arrow((x, y), (x + dx, y + dy))
         vec.pen_color = boja
         vec.line_width = 0.05
-        vec.head_len = 0.2 if dd > 0.2*0.2 else math.sqrt(dd)/2
+        vec.head_len = 0.2 if d > 0.2 else d/2
         Draw(vec)
 
 
