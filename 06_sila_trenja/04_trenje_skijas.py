@@ -1,30 +1,33 @@
-# Ova simulacija verovatno nece biti pokazivana osnovcima zbog trigonometrije na pocetku
-# (bar ne u ovom obliku, a tesko i u bilo kom drugom)
 import math
 from simanim import *
 
-sirina_scene = 70
+scena_w = 70
 w_skijas = 2
 
 # konstante sa slike
-w_pix, h_pix = 2874, 544
-visina_scene = h_pix/w_pix * sirina_scene
-visina_podloge = 50/w_pix * sirina_scene
-x_poc_pada = 123/w_pix * sirina_scene
-x_kraj_pada = 680/w_pix * sirina_scene
-y_poc_pada = (1 - 240/h_pix) * visina_scene
-y_kraj_pada = (1 - 380/h_pix) * visina_scene
-tan_ugla = abs(y_kraj_pada - y_poc_pada) / (x_kraj_pada - x_poc_pada)
+scena_w_pix, scena_h_pix = 2874, 544
+scena_h = scena_h_pix/scena_w_pix * scena_w
+visina_podloge = 50/scena_w_pix * scena_w
+x_poc_pada = 123/scena_w_pix * scena_w
+x_kraj_pada = 680/scena_w_pix * scena_w
+y_poc_pada = (1 - 240/scena_h_pix) * scena_h
+y_kraj_pada = (1 - 380/scena_h_pix) * scena_h
+
+pad_dx = x_kraj_pada - x_poc_pada
+pad_dy = y_poc_pada - y_kraj_pada
+
+tan_ugla = abs(y_kraj_pada - y_poc_pada) /
 cos_ugla = 1 / math.sqrt(tan_ugla * tan_ugla + 1)
 sin_ugla = cos_ugla * tan_ugla
 ugao = math.atan(tan_ugla)
 
-w_pix_skijas, h_pix_skijas = 658, 491
-h_skijas = w_skijas * h_pix_skijas / w_pix_skijas
+scena_w_pix_skijas, scena_h_pix_skijas = 658, 491
+h_skijas = w_skijas * scena_h_pix_skijas / scena_w_pix_skijas
+
 
 def setup(m):
     PixelsPerUnit(10)
-    ViewBox((0, 0), sirina_scene, visina_scene)
+    ViewBox((0, 0), scena_w, scena_h)
     FramesPerSecond(30)
     UpdatesPerFrame(50)
 
@@ -69,7 +72,7 @@ def update(m):
             m.v1 = m.v
 
     m.nagnut = (x_poc_pada < m.x < x_kraj_pada)
-    if m.x >= sirina_scene:
+    if m.x >= scena_w:
         Finish()
     elif abs(m.v) < 0.001:
         m.a = 0
@@ -93,7 +96,7 @@ def crtaj_vektor(x, y, dx, dy, boja):
 
 def draw(m):
     # scena
-    scena = Image('skier_background.png', (0, 0), sirina_scene, visina_scene)
+    scena = Image('skier_background.png', (0, 0), scena_w, scena_h)
     Draw(scena)
 
     # skijas
@@ -106,7 +109,7 @@ def draw(m):
         sin, cos = 0, 1
         Draw(skijas)
         
-    podloga = Box( (x_kraj_pada, y_kraj_pada - visina_podloge), sirina_scene - x_kraj_pada, visina_podloge)
+    podloga = Box( (x_kraj_pada, y_kraj_pada - visina_podloge), scena_w - x_kraj_pada, visina_podloge)
     podloga.fill_color = m.boja_podloge
     Draw(podloga)
         
@@ -123,7 +126,7 @@ def draw(m):
         Draw(t_a, t_v)
 
     # tekst (v0, t, s za ravan deo posle pada)
-    t_teren = Text((sirina_scene / 2, y_kraj_pada - visina_podloge), m.терен)
+    t_teren = Text((scena_w / 2, y_kraj_pada - visina_podloge), m.терен)
     t_teren.pen_color = '#000000'
     t_teren.font_size = 1.5
     Draw(t_teren)

@@ -4,35 +4,42 @@ from simanim import *
 def setup(m):
     PixelsPerUnit(60)
     ViewBox((0, 0), 10, 6)
-    FramesPerSecond(60)
+    FramesPerSecond(30)
     UpdatesPerFrame(1)
 
-    m.mi = InputFloat(0.2, (0.15, 0.4)) # koficijent trenja
-    m.masa = InputFloat(1.5, (1, 2.7))
+    m.mi_klizanja = 0.4 # koeficijent trenja klizanja
+    m.mi_mirovanja = 0.5 # koeficijent trenja mirovanja
+    m.masa = InputFloat(1.5, (1, 3))
 
     m.g = 10
     m.F = 0.0
     m.Ftr = 0.0
-    m.Fr = 0.0 # rezultanta sila
+    m.Frez = 0.0 # rezultanta sila
     m.v = 0.0
     m.x = 0.0
-    m.sanduk_w = m.masa ** (1/3)
 
 
 def update(m):
-    m.Ftr = min(m.mi * m.masa * m.g, m.F)
-    m.Fr = m.F - m.Ftr
-    a = m.Fr / m.masa
-    
-    m.x += m.v * m.dt
-    m.v += a * m.dt
-
     # povecavamo silu vuce dok sanduk ne postigne dovoljnu brzinu (procena)
-    if m.update_count % 5 == 0:
-        if m.v <= 1.0:
-            m.F += 0.1 
-        else:
-            m.F = m.Ftr
+    if m.v <= 1:
+        F = m.F + 0.05
+    else:
+        # nakon postizanja brzine, vucemo minimalnom dovoljnom silom
+        F = m.mi_klizanja * m.masa * m.g
+
+    mi = m.mi_mirovanja if m.v == 0 else m.mi_klizanja
+    Ftr = min(mi * m.masa * m.g, m.F)
+    Frez = F - Ftr
+    a = Frez / m.masa
+    v = m.v + a * m.dt
+    x = m.x + m.v * m.dt + a * m.dt * m.dt / 2
+
+    # pamcenje stanja
+    m.F = F
+    m.Ftr = Ftr
+    m.Frez = Frez
+    m.v = v
+    m.x = x
 
     if m.x >= 10:
         Finish()
@@ -48,48 +55,45 @@ def crtaj_vektor(x, y, dx, dy, boja):
         Draw(vec)
 
 
-def hex_boja(k):
-    r, g, b = map(int, (k*218, k*241, k*248))
-    return f'#{r:02x}{g:02x}{b:02x}'
-
-
 def draw(m):
     pozadina = Box((0, 0), 10, 6)
     pozadina.fill_color = '#3698bf' # plava
 
     y0 = 2.5
     pod = Box((0, 0), 10, y0)
-    pod.fill_color = hex_boja(1 - m.mi) # tamnija za vece trenje
+    pod.fill_color = '#8d9ca1' # boja za koeficijent 0.35
     
     
-    dinm_w = 1.6 # 16 crta dinamometra (sa slike) se prikazuje kao dinm_w duznih jedinica
-    k_dinm = dinm_w/16 # jedna crta (1N) je dinm_w/16
+    dinm_w = 1.6 # traka dinamometra od 16 crta zauzima dinm_w duznih jedinica
+    k_dinm = dinm_w/32 # 1N je dinm_w/32 duznih jedinica
     x0 = 2.5 + m.x
-    sanduk = Image('box.png', (x0, y0), m.sanduk_w, m.sanduk_w)
-    x1 = x0 + m.sanduk_w
+
+    sanduk_vel = (2 * m.masa) ** (1/3)
+    sanduk = Image('box.png', (x0, y0), sanduk_vel, sanduk_vel)
+    x1 = x0 + sanduk_vel
     kutija = Image('dynamometer_case.png', (x1, y0 + 0.1), dinm_w, 0.5)
-    traka = Image('dynamometer_stripes.png', (x1 + k_dinm * m.Ftr, y0 + 0.1), dinm_w, 0.5)
-    x2 = x1 + k_dinm * m.Ftr + dinm_w
+    traka = Image('dynamometer_stripes.png', (x1 + k_dinm * m.F, y0 + 0.1), dinm_w, 0.5)
+    x2 = x1 + k_dinm * m.F + dinm_w
     
     Draw(pozadina, pod, sanduk, traka, kutija)
 
     # aktivna sila, sila trenja, rezultanta
-    k = 0.1
+    k = 0.07
     crtaj_vektor(x2, y0 + 0.35, m.F * k, 0, '#ffff00')
     crtaj_vektor(x0, y0 - 0.1, -m.Ftr * k, 0, '#ff0000')
-    crtaj_vektor(x1, y0 - 0.1, m.Fr * k, 0, '#008000')
+    crtaj_vektor(x1, y0 - 0.1, m.Frez * k, 0, '#008000')
     
     # uspravne sile
     mg = abs(m.masa * m.g)
-    crtaj_vektor(x0 + m.sanduk_w/2, y0 + m.sanduk_w/2, 0, -k * mg, '#000000') # mg
-    crtaj_vektor(x0 + m.sanduk_w/2, y0 + m.sanduk_w/2, 0, k * mg, '#805000') # N
+    crtaj_vektor(x0 + sanduk_vel/2, y0 + sanduk_vel/2, 0, -k * mg, '#000000') # mg
+    crtaj_vektor(x0 + sanduk_vel/2, y0 + sanduk_vel/2, 0, k * mg, '#805000') # N
 
     tekst_F = Text((6, 1.2), f'  F={abs(m.F):6.2f}N')
     tekst_F.font_size = 0.5
     tekst_F.pen_color = '#ffff00'
     tekst_Ftr = Text((6, 0.7), f'Ftr={abs(m.Ftr):6.2f}N')
     tekst_Ftr.pen_color = '#ff0000'
-    tekst_Fr = Text((6, 0.2),  f' Fr={abs(m.Fr):6.2f}N')
+    tekst_Fr = Text((6, 0.2),  f' Fr={abs(m.Frez):6.2f}N')
     tekst_Fr.pen_color = '#008000'
 
     tekst_n = Text((0.5, 0.7),  f' N={mg:6.2f}N')
