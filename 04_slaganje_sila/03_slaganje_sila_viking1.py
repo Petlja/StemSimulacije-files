@@ -2,9 +2,9 @@ import math
 from simanim import *
 
 dubina_mora = 9
-dno_broda = -2.67 # y koordinata dna broda
+dno_broda = -0.9 # y koordinata dna broda
 scena_w, scena_h  = 50, 30
-brod_w, brod_h =  15, 9
+brod_w, brod_h =  12, 9
 
 def setup(m):
     PixelsPerUnit(10)
@@ -21,9 +21,10 @@ def setup(m):
     m.x = 0 # leva tacka broda
 
 def update(m):
-    x_novo = m.x + m.v * m.dt + m.a * m.dt * m.dt / 2
-    v_novo = m.v + m.a * m.dt
-    m.x, m.v = x_novo, v_novo
+    dx = m.v * m.dt + m.a * m.dt * m.dt / 2
+    dv = m.a * m.dt
+    m.x += dx
+    m.v += dv
     
     if m.x + brod_w >= 50:
         Finish()
@@ -33,7 +34,7 @@ def draw(m):
     nebo.fill_color = '#b5d6ef'
     more = Box((0, -dubina_mora), 50, dubina_mora)
     more.fill_color = '#587acb'
-    brod = Image("viking.png", (m.x, dno_broda), brod_w, brod_h)
+    brod = Image("viking_ship.png", (m.x, dno_broda), brod_w, brod_h)
     Draw(nebo, more, brod)
 
     ## koordinate i razmera vektora pri crtanju 
@@ -44,7 +45,7 @@ def draw(m):
     y_a = 15    # y koordinata vektora ubrzanja na sceni
     y_fvetar = dno_broda + 3 * brod_h / 4 # y koord. vektora sile vetra 
     y_frez = dno_broda + 2 * brod_h / 4   # y koord. vektora rezultantne sile
-    y_fvesla = dno_broda + 1 * brod_h / 4 # y koord. vektora sile veslaca
+    y_fvesla = dno_broda # y koord. vektora sile veslaca
 
     # vektor sile vetra
     vec_vetar = Arrow((x_f, y_fvetar), (x_f + m.f_vetra*kf, y_fvetar))

@@ -16,7 +16,7 @@ y_kraj_pada = (1 - 380/scena_h_pix) * scena_h
 pad_dx = x_kraj_pada - x_poc_pada
 pad_dy = y_poc_pada - y_kraj_pada
 
-tan_ugla = abs(y_kraj_pada - y_poc_pada) /
+tan_ugla = abs(pad_dy) / pad_dx
 cos_ugla = 1 / math.sqrt(tan_ugla * tan_ugla + 1)
 sin_ugla = cos_ugla * tan_ugla
 ugao = math.atan(tan_ugla)
@@ -54,27 +54,31 @@ def update(m):
     if m.nagnut:
         F_rez = sin_ugla * m.masa * m.g # u smeru nizbrdice
         m.a = F_rez / m.masa
-        m.v += m.a * m.dt
-        ds = m.v * m.dt
-        m.x += ds * cos_ugla
-        m.y -= ds * sin_ugla
+        dv = m.a * m.dt
+        ds = m.v * m.dt + m.a * m.dt * m.dt / 2
+        dx = ds * cos_ugla
+        dy = -ds * sin_ugla
+        m.x += dx
+        m.y += dy
+        m.v += dv
     else:
         F_rez = m.mi * m.masa * m.g # na levo (trenje)
         m.a = F_rez / m.masa
-        m.v -= m.a * m.dt
-        ds = m.v * m.dt
+        dv = -m.a * m.dt
+        ds = m.v * m.dt - m.a * m.dt * m.dt / 2
+        m.v += dv
         m.x += ds
 
     if m.x > x_kraj_pada:
         m.s1 += ds
         m.t1 += m.dt
         if m.nagnut:
-            m.v1 = m.v
+            m.v1 = m.v # zapamtimo brzinu na kraju strmog dela
 
     m.nagnut = (x_poc_pada < m.x < x_kraj_pada)
     if m.x >= scena_w:
         Finish()
-    elif abs(m.v) < 0.001:
+    elif m.v < 0.001:
         m.a = 0
         Finish()
 

@@ -27,13 +27,16 @@ def setup(m):
 
 
 def update(m):
-    x_novo = m.x + m.vx * m.dt + m.ax * m.dt * m.dt / 2
-    vx_novo = m.vx + m.ax * m.dt
+    dx = m.vx * m.dt + m.ax * m.dt * m.dt / 2
+    dvx = m.ax * m.dt
 
-    y_novo = m.y + m.vy * m.dt + m.ay * m.dt * m.dt / 2
-    vy_novo = m.vy + m.ay * m.dt
+    dy = m.vy * m.dt + m.ay * m.dt * m.dt / 2
+    dvy = m.ay * m.dt
     
-    m.x, m.y, m.vx, m.vy = x_novo, y_novo, vx_novo, vy_novo
+    m.x += dx
+    m.vx += dvx
+    m.y += dy
+    m.vy += dvy
 
     if m.x < -5 or m.x >= 5 or m.y < -5 or m.y >= 5:
         Finish()

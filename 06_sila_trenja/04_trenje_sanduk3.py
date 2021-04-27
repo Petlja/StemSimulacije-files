@@ -32,16 +32,16 @@ def update(m):
     Ftr = min(mi * m.masa * m.g, m.F)
     Frez = F - Ftr
     a = Frez / m.masa
-    v = m.v + a * m.dt
-    x = m.x + m.v * m.dt + a * m.dt * m.dt / 2
+    dv = a * m.dt
+    dx = m.v * m.dt + a * m.dt * m.dt / 2
                    
 
     # pamcenje stanja
     m.F = F
     m.Ftr = Ftr
     m.Frez = Frez
-    m.v = v
-    m.x = x
+    m.v += dv
+    m.x += dx
 
     if m.x >= 10:
         Finish()

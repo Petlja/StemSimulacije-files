@@ -47,27 +47,27 @@ def update(m):
     m.Fg = masa * m.g
     m.Fotp = k_otp * m.v if m.padobran else 0
     m.a = (m.Fg - m.Fotp) / masa
-    
-    if m.avion_vidljiv:
-        m.x_avion += 0.05
-        if m.x_avion > scena_w:
-            m.avion_vidljiv = False
+    dh = m.v * dt + m.a * dt * dt / 2
+    dv = m.a * dt
 
-    dh = m.v * dt + m.a * dt * dt /2
+    # azuriranje stanja
+
     # visini objekata dodajemo dh jer smo u ref. sistemu padobranca, 
     # tj. padobranac stoji a sve ostalo se krece suprotno (na gore)
-    if m.avion_vidljiv:
-        m.h_avion += dh
-        if m.h_avion > scena_h:
-            m.avion_vidljiv = False
-
     for i in range(br_oblaka):
         m.h_oblak[i] += dh
         if m.h_oblak[i] > scena_h:
             m.h_oblak[i] -= (scena_h + oblak_h) # "novi oblak"
 
-    m.v += m.a * dt
+    if m.avion_vidljiv:
+        m.x_avion += 0.05
+        m.h_avion += dh
+        if m.x_avion > scena_w or m.h_avion > scena_h:
+            m.avion_vidljiv = False
 
+    m.v += dv
+
+    # uslov za kraj je 3.3 sekunde priblizno ravnomernog kretanja
     if abs(m.a) < 0.001:
         m.s_ravn += dh
         if m.s_ravn >= 3.3:

@@ -2,9 +2,9 @@ import math
 from simanim import *
 
 dubina_mora = 9
-dno_broda = -2.67 # y koordinata dna broda
+dno_broda = -0.9 # y koordinata dna broda
 scena_w, scena_h  = 50, 30
-brod_w, brod_h =  15, 9
+brod_w, brod_h =  12, 9
 
 def setup(m):
     PixelsPerUnit(10)
@@ -23,9 +23,10 @@ def setup(m):
 
 
 def update(m):
-    x_novo = m.x + m.v * m.dt + m.a * m.dt * m.dt / 2
-    v_novo = m.v + m.a * m.dt
-    m.x, m.v = x_novo, v_novo
+    dx = m.v * m.dt + m.a * m.dt * m.dt / 2
+    dv = m.a * m.dt
+    m.x += dx
+    m.v += dv
     
     # ako je brod dotakao levu ili desnu ivicu ekrana, 
     # ili se ne krece, zavrsi simulaciju
@@ -43,11 +44,11 @@ def crtaj_vodoravan_vektor(x, y, d, boja):
     
 
 def draw(m):
-    nebo = Box((0, 0), 50, 30-dubina_mora)
+    nebo = Box((0, 0), 50, 30 - dubina_mora)
     nebo.fill_color = '#b5d6ef'
     more = Box((0, -dubina_mora), 50, dubina_mora)
     more.fill_color = '#587acb'
-    brod = Image("viking.png", (m.x, dno_broda), brod_w, brod_h)
+    brod = Image("viking_ship.png", (m.x, dno_broda), brod_w, brod_h)
     Draw(nebo, more, brod)
 
     ## koordinate i razmera vektora pri crtanju 

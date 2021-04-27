@@ -22,20 +22,22 @@ def setup(m):
 def update(m):
     # povecavamo silu vuce dok sanduk ne postigne dovoljnu brzinu (procena)
     if m.v <= 1:
-        F = m.F + 0.05
+        m.F = m.F + 0.05
     else:
         # nakon postizanja brzine, vucemo minimalnom dovoljnom silom
-        F = m.mi_klizanja * m.masa * m.g
+        m.F = m.mi_klizanja * m.masa * m.g
 
-    mi = m.mi_mirovanja if m.v == 0 else m.mi_klizanja
-    Ftr = min(mi * m.masa * m.g, m.F)
-    Frez = F - Ftr
+    if m.v == 0:
+        Ftr = min(m.F, m.mi_mirovanja  * m.masa * m.g)
+    else:
+        Ftr = m.mi_klizanja  * m.masa * m.g
+
+    Frez = m.F - Ftr
     a = Frez / m.masa
     dv = a * m.dt
     dx = m.v * m.dt + a * m.dt * m.dt / 2
 
     # pamcenje stanja
-    m.F = F
     m.Ftr = Ftr
     m.Frez = Frez
     m.v += dv
@@ -63,30 +65,8 @@ def draw(m):
     pod = Box((0, 0), 10, y0)
     pod.fill_color = '#8d9ca1'
     
-    dinm_w = 1.6 # traka dinamometra od 16 crta zauzima dinm_w duznih jedinica
-    k_dinm = dinm_w/32 # 1N je dinm_w/32 duznih jedinica
-    x0 = 2.5 + m.x
-
-    sanduk_vel = (2 * m.masa) ** (1/3)
-    sanduk = Image('box.png', (x0, y0), sanduk_vel, sanduk_vel)
-    x1 = x0 + sanduk_vel
-    kutija = Image('dynamometer_case.png', (x1, y0 + 0.1), dinm_w, 0.5)
-    traka = Image('dynamometer_stripes.png', (x1 + k_dinm * m.F, y0 + 0.1), dinm_w, 0.5)
-    x2 = x1 + k_dinm * m.F + dinm_w
+    sanduk = Image('box.png', (2.5 + m.x, 2.5), 2, 2)
     
-    Draw(pozadina, pod, sanduk, traka, kutija)
-
-    # aktivna sila, sila trenja, rezultanta
-    k = 0.07
-    crtaj_vektor(x2, y0 + 0.35, m.F * k, 0, '#ffff00')
-    crtaj_vektor(x0, y0 - 0.1, -m.Ftr * k, 0, '#ff0000')
-    crtaj_vektor(x1, y0 - 0.1, m.Frez * k, 0, '#008000')
-    
-    # uspravne sile
-    mg = abs(m.masa * m.g)
-    crtaj_vektor(x0 + sanduk_vel/2, y0 + sanduk_vel/2, 0, -k * mg, '#000000') # mg
-    crtaj_vektor(x0 + sanduk_vel/2, y0 + sanduk_vel/2, 0, k * mg, '#805000') # N
-
     tekst_F = Text((6, 1.2), f'  F={abs(m.F):6.2f}N')
     tekst_F.font_size = 0.5
     tekst_F.pen_color = '#ffff00'
@@ -95,11 +75,12 @@ def draw(m):
     tekst_Fr = Text((6, 0.2),  f' Fr={abs(m.Frez):6.2f}N')
     tekst_Fr.pen_color = '#008000'
 
-    tekst_n = Text((0.5, 0.7),  f' N={mg:6.2f}N')
-    tekst_n.pen_color = '#805000'
-    tekst_mg = Text((0.5, 0.2),  f' mg={mg:6.2f}N')
-    tekst_mg.pen_color = '#000000'
-    Draw(tekst_F, tekst_Ftr, tekst_Fr, tekst_n, tekst_mg)
+    Draw(pozadina, pod, sanduk, tekst_F, tekst_Ftr, tekst_Fr)
+
+    # aktivna sila, sila trenja, rezultanta
+    k = 0.07
+    crtaj_vektor(m.x + 4.5, y0 + 0.35, m.F * k, 0, '#ffff00')
+    crtaj_vektor(m.x + 4.5, y0 - 0.1, -m.Ftr * k, 0, '#ff0000')
+    crtaj_vektor(m.x + 4.5, y0 - 0.1, m.Frez * k, 0, '#008000')
 
 Run(setup, update, draw)
-

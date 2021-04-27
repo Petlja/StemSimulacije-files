@@ -16,11 +16,13 @@ def setup(m):
     m.brod_masa = 10_000
     m.a = (m.f_vetra + m.f) / m.brod_masa
     m.v = 0 # brzina broda (na desno)
-    m.x = 0 # leva tacka broda
+    m.x = 0 # krajnja leva tacka broda
 
 def update(m):
-    m.x += m.v * m.dt + m.a * m.dt * m.dt / 2
-    m.v += m.a * m.dt
+    dx = m.v * m.dt + m.a * m.dt * m.dt / 2
+    dv = m.a * m.dt
+    m.x += dx
+    m.v += dv
     if m.x + brod_w >= 50:
         Finish()
 

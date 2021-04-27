@@ -4,7 +4,7 @@ from simanim import *
 s0 = 1          # povrsina poprecnog preseka suda
 visina_suda = 1.9 
 sud_d = 0.03    # debljina zidova suda
-dno_h = -2.1    # y koordinata dna (y koordinata povrsine tecnosti je 0)
+dno_y = -2.1    # y koordinata dna (y koordinata povrsine tecnosti je 0)
 g = 10          # ubrzanje zemljine teze
 gustine = { 
     "алкохол" : 700, 
@@ -21,7 +21,7 @@ boje = {
 
 def setup(m):
     PixelsPerUnit(100)
-    ViewBox((0, dno_h), 6, 4)
+    ViewBox((0, dno_y), 6, 4)
     FramesPerSecond(30)
     UpdatesPerFrame(100) # vazno!
 
@@ -37,23 +37,21 @@ def setup(m):
     m.F_rez = 0
     m.a = 0 # ubrzanje bureta
     m.v = 0 # brzina bureta
-    m.h = 0 # polozaj dna bureta, na pocetku na povrsini tecnosti
+    m.y = 0 # polozaj dna bureta, na pocetku na povrsini tecnosti
 
 def update(m):
     # racunanje novog stanja u lokalnim promenljivama
-    if m.h + visina_suda >= 0: # ako bure pluta (vrh je iznad povrsine)
-        v_u_tecnosti = abs(m.h) * s0
-        F_potiska = abs(m.h) * s0 * m.ro * g
+    if m.y + visina_suda >= 0: # ako bure pluta (vrh je iznad povrsine)
+        v_u_tecnosti = abs(m.y) * s0
+        F_potiska = abs(m.y) * s0 * m.ro * g
     else: # tecnost preliva vrh bureta
         v_u_tecnosti = visina_suda * s0
         F_potiska = 0 # u sud je usla tecnost, nema potiska
     F_otpora = m.k_r * m.v 
     F_rez = g * m.маса_тега - F_otpora - F_potiska # nanize
     a = F_rez / m.маса_тега # nanize
-    v = m.v + a * m.dt      # nanize
-    h = m.h - m.v * m.dt - a * m.dt * m.dt / 2
-    if h < dno_h:
-        h = dno_h
+    dv = a * m.dt      # nanize
+    dy = -m.v * m.dt - a * m.dt * m.dt / 2
 
     # pamcenje novog stanja
     m.v_u_tecnosti = v_u_tecnosti
@@ -62,10 +60,12 @@ def update(m):
     m.F_rez = F_rez
     m.a = a
     m.v = v
-    m.h = h
+    m.y = y
+    if m.y < dno_y:
+        m.y = dno_y
 
-    if m.h == dno_h or (abs(m.a) < 0.0001 and abs(m.v) < 0.00001):
-    # if m.h == dno_h or abs(g * m.маса_тега - F_potiska) < 1:
+    if m.y == dno_y or (abs(m.a) < 0.0001 and abs(m.v) < 0.00001):
+    # if m.y == dno_y or abs(g * m.маса_тега - F_potiska) < 1:
         # bure je potonulo, ili je razlika sila manja od 0.001 KN
         Finish()
 
@@ -76,18 +76,18 @@ def draw(m):
     tecnost = Box((0, dno_h), 2, -dno_h)
     tecnost.fill_color = m.l_clr
     
-    sud = Box((0.5, m.h), 1.0, visina_suda)
+    sud = Box((0.5, m.y), 1.0, visina_suda)
     sud.fill_color = '#753904'
     
-    sud_unutra = Box((0.5 + sud_d, m.h + sud_d), 1 - 2*sud_d, visina_suda - sud_d)
-    if m.h + visina_suda >= 0: # ako pluta
+    sud_unutra = Box((0.5 + sud_d, m.y + sud_d), 1 - 2*sud_d, visina_suda - sud_d)
+    if m.y + visina_suda >= 0: # ako pluta
         sud_unutra.fill_color = sud.fill_color
     else:
         sud_unutra.fill_color = m.l_clr
 
     teg_razmera = (m.маса_тега / 21000) ** (1/3)
     teg_w, teg_h = 0.95 * teg_razmera, 1.15 * teg_razmera
-    teg = Image("weight.png", (1 - teg_w/2, m.h), teg_w, teg_h)
+    teg = Image("weight.png", (1 - teg_w/2, m.y), teg_w, teg_h)
 
     Draw(pozadina, tecnost, sud, sud_unutra, teg)
 

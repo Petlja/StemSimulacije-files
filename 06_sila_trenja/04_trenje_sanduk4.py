@@ -54,9 +54,10 @@ def update(m):
     m.Fr = m.F - m.Ftr
     a = m.Fr / m.masa
 
-    m.x += m.v * m.dt
-    m.v += a * m.dt
-
+    dv = a * m.dt
+    dx = m.v * m.dt + a * m.dt * m.dt / 2
+    m.v += dv
+    m.x += dx
                     
     if m.x >= 10:
         Finish()

@@ -40,6 +40,8 @@ def update(m):
     m.a = (f - f_otp) / masa
     
     dh = m.v * dt + m.a * dt * dt / 2
+    dv = m.a * dt
+
     # visini oblaka dodajemo dh jer smo u ref. sistemu padobranca,
     # tj. padobranac stoji a sve ostalo se krece suprotno (na gore)
     for i in range(br_oblaka):
@@ -47,7 +49,7 @@ def update(m):
         if m.h_oblak[i] > scena_h:
             m.h_oblak[i] -= (scena_h + oblak_h) # "novi oblak"
 
-    m.v += m.a * dt
+    m.v += dv
 
     if abs(m.a) < 0.001:
         m.s_ravn += dh

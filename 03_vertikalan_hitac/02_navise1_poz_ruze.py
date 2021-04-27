@@ -1,9 +1,8 @@
 import math
 from simanim import *
 
-scena_w, scena_h = 2.56, 4
-ruza_w, ruza_h = 0.25, 0.4
-
+scena_w, scena_h = 2.3, 4
+ruza_w, ruza_h = 0.2, 0.4
 
 def setup(m):
     PixelsPerUnit(100)
