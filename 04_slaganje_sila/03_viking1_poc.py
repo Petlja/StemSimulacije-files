@@ -3,7 +3,7 @@ from simanim import *
 
 dubina_mora = 9
 scena_w, scena_h = 50, 30
-brod_w, brod_h = 15, 9
+brod_w, brod_h =  12, 9
 
 def setup(m):
     PixelsPerUnit(10)

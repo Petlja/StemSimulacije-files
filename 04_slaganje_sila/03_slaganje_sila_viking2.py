@@ -58,13 +58,13 @@ def draw(m):
     x_f = m.x + brod_w/2 # x koordinata napadne tacke (poceci svih vektora)
     y_a = 15        # y koordinata vektora ubrzanja na slici
     y_frez = 10
-    y_fvesla = dno_broda + 1 * brod_h / 4
-    y_fstruja = dno_broda + 0 * brod_h / 4
+    y_fvesla = dno_broda + 0.5
+    y_fstruja = dno_broda
 
     # vektor sile struje
     crtaj_vodoravan_vektor(x_f, y_fstruja, m.f_struje*kf, '#ff0000')
     str_struja = f'Fv={abs(0.001*m.f_struje):0.0f}KN'
-    tekst_struja = Text((x_f + m.f_struje*kf, y_fstruja - 2), str_struja)
+    tekst_struja = Text((x_f + m.f_struje*kf - 1, y_fstruja - 2), str_struja)
     tekst_struja.pen_color = '#ff0000'
     tekst_struja.font_size = 2
     Draw(tekst_struja)

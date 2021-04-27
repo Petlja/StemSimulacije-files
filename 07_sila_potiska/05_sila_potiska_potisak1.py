@@ -59,8 +59,8 @@ def update(m):
     m.F_otpora = F_otpora
     m.F_rez = F_rez
     m.a = a
-    m.v = v
-    m.y = y
+    m.v += dv
+    m.y += dy
     if m.y < dno_y:
         m.y = dno_y
 
@@ -70,10 +70,10 @@ def update(m):
         Finish()
 
 def draw(m):
-    pozadina = Box((0, dno_h), 6, 4)
+    pozadina = Box((0, dno_y), 6, 4)
     pozadina.fill_color = '#ffffff'
     
-    tecnost = Box((0, dno_h), 2, -dno_h)
+    tecnost = Box((0, dno_y), 2, -dno_y)
     tecnost.fill_color = m.l_clr
     
     sud = Box((0.5, m.y), 1.0, visina_suda)
