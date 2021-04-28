@@ -44,12 +44,13 @@ def crtaj_vodoravan_vektor(x, y, d, boja):
     
 
 def draw(m):
-    nebo = Box((0, 0), 50, 30 - dubina_mora)
-    nebo.fill_color = '#b5d6ef'
-    more = Box((0, -dubina_mora), 50, dubina_mora)
-    more.fill_color = '#587acb'
+    nebo = Box((0, 0), scena_w, scena_h - dubina_mora)
+    nebo.fill_color = '#c6d3dc'
+    more = Box((0, -dubina_mora), scena_w, dubina_mora)
+    more.fill_color = '#8b9dc4'
+    oblaci = Image("viking_back.png", (0, 0), scena_w, scena_h - dubina_mora)
     brod = Image("viking_ship.png", (m.x, dno_broda), brod_w, brod_h)
-    Draw(nebo, more, brod)
+    Draw(nebo, more, oblaci, brod)
 
     ## koordinate i razmera vektora pri crtanju 
     # (razmera je ovde odnos intenziteta vektora i njegove duzine)

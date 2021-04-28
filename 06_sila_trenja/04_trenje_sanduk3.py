@@ -75,7 +75,7 @@ def draw(m):
     x0 = 2.5 + m.x
                   
     sanduk_vel = (2 * m.masa) ** (1/3)
-    sanduk = Image('box.png', (x0, y0), sanduk_vel, sanduk_vel)
+    sanduk = Image('box.png', (x0, y0-0.65), sanduk_vel, sanduk_vel)
     x1 = x0 + sanduk_vel
     kutija = Image('dynamometer_case.png', (x1, y0 + 0.1), dinm_w, 0.5)
     traka = Image('dynamometer_stripes.png', (x1 + k_dinm * m.F, y0 + 0.1), dinm_w, 0.5)

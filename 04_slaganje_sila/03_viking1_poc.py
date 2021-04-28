@@ -29,9 +29,9 @@ def update(m):
 
 def draw(m):
     nebo = Box((0, 0), scena_w, scena_h - dubina_mora)
-    nebo.fill_color = '#b5d6ef'
+    nebo.fill_color = '#c6d3dc'
     more = Box((0, -dubina_mora), scena_w, dubina_mora)
-    more.fill_color = '#587acb'
+    more.fill_color = '#8b9dc4'
     brod = Box((m.x, 0), brod_w, brod_h)
     brod.fill_color = '#000000'
     Draw(nebo, more, brod)

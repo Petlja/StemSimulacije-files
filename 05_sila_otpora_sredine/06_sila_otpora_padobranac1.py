@@ -3,12 +3,12 @@ from simanim import *
 
 masa = 0.1
 k_otp = 0.5 # koeficijent otpora
-x_oblak = (1.4, 3.7, 4.2, 7.1, 8.6)
-y0_oblak = (2.5, 7.6, 1.8, 9.2, 5.3)
+x_oblak = (0.9, 3.2, 3.7, 6.6, 8.1)
+y0_oblak = (2.5, 7.6, 3.3, 9.2, 5.3)
 br_oblaka = len(x_oblak)
 g_x0, g_y0 = 0.3, 0.3 # koordinatni pocetak grafika
 scena_w, scena_h = 10, 8
-oblak_w, oblak_h = 2, 2
+oblak_w, oblak_h = 2, 0.8
 
 def setup(m):
     PixelsPerUnit(50)
@@ -74,12 +74,13 @@ def update(m):
 def draw(m):
     # pozadina
     pozadina = Box((0, 0), scena_w, scena_h)
-    pozadina.fill_color = '#a0dbe8'
+    pozadina.fill_color = '#cadade'
     Draw(pozadina)
     
     # oblaci
     for i in range(br_oblaka):
-        oblak = Image('cloud.png', (x_oblak[i], m.h_oblak[i]), oblak_w, oblak_h)
+        ime_slike = 'cloud' + str(i) + '.png'
+        oblak = Image(ime_slike, (x_oblak[i], m.h_oblak[i]), oblak_w, oblak_h)
         Draw(oblak)
     
     # avion
@@ -89,7 +90,7 @@ def draw(m):
 
     # zemlja
     zemlja = Box((0, 0), scena_w, m.s_ravn)
-    zemlja.fill_color = '#fcaa4c'
+    zemlja.fill_color = '#d9c9b6'
     Draw(zemlja)
     
     # tekstualni podaci
@@ -109,8 +110,10 @@ def draw(m):
     Draw(grafik_ose, grafik)
 
     # padobranac
-    padobranac_img = 'parachute.png' if m.padobran else 'egg.png'
-    padobranac = Image(padobranac_img, (3, 3), 4, 4)
+    padobran = Image('parachute.png', (4, 4), 2, 2)
+    if m.padobran:
+        Draw(padobran)
+    padobranac = Image('bird.png', (4, 2.5), 2, 2)
     Draw(padobranac)
 
 
