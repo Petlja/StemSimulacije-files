@@ -1,7 +1,7 @@
 import math
 from simanim import *
 
-scena_w, scena_h = 2.56, 4
+scena_w, scena_h = 4.6, 6
 
 def setup(m):
     PixelsPerUnit(100)
@@ -18,10 +18,11 @@ def update(m):
 
 
 def draw(m):
-    scena = Image("romeo1.png", (0, 0), scena_w, scena_h)
+    scena = Image("romeo1_background.png", (0, 0), scena_w, scena_h)
+    romeo = Image("romeo1_romeo.png", (0, 0), scena_w, scena_h)
     tacka = Circle((m.x, m.y), 0.02)
     tacka.fill_color = '#ff0000'
-    Draw(scena, tacka)
+    Draw(scena, romeo, tacka)
 
 
 Run(setup, update, draw)

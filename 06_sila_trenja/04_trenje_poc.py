@@ -65,7 +65,7 @@ def draw(m):
     pod = Box((0, 0), 10, y0)
     pod.fill_color = '#8d9ca1'
     
-    sanduk = Image('box.png', (2.5 + m.x, 2.5), 2, 2)
+    sanduk = Image('box.png', (2.5 + m.x, 1.85), 2, 2)
     
     tekst_F = Text((6, 1.2), f'  F={abs(m.F):6.2f}N')
     tekst_F.font_size = 0.5

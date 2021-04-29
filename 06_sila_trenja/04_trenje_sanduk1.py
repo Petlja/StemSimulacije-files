@@ -2,7 +2,7 @@ import math
 from simanim import *
 
 def setup(m):
-    PixelsPerUnit(160)
+    PixelsPerUnit(60)
     ViewBox((0, 0), 10, 6)
     FramesPerSecond(30)
     UpdatesPerFrame(1)
