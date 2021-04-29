@@ -9,7 +9,7 @@ h0 = 0.2 # visina poda (prikazana kao 0)
 h_b = 3.15 # Visina donje tacke balona u gornjoj slici
 
 def setup(m):
-    PixelsPerUnit(80)
+    PixelsPerUnit(72)
     ViewBox((0, 0), 5, 6)
     FramesPerSecond(30)
     UpdatesPerFrame(20)

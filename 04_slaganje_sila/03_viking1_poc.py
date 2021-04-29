@@ -32,8 +32,7 @@ def draw(m):
     nebo.fill_color = '#c6d3dc'
     more = Box((0, -dubina_mora), scena_w, dubina_mora)
     more.fill_color = '#8b9dc4'
-    brod = Box((m.x, 0), brod_w, brod_h)
-    brod.fill_color = '#000000'
+    brod = Image("viking_ship.png", (m.x, 0), brod_w, brod_h)
     Draw(nebo, more, brod)
 
 Run(setup, update, draw)

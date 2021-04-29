@@ -36,7 +36,7 @@ def setup(m):
 
 
 def update(m):
-    if (m.update_count % 50 == 0) and (m.brojac < len(m.sila)):
+    if (m.update_count % 20 == 0) and (m.brojac < len(m.sila)):
         # azuriramo obe sile
         m.F = m.sila[m.brojac]
         m.brojac += 1
