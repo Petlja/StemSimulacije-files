@@ -13,13 +13,10 @@ def setup(m):
     m.x = 0
     m.y = 0.4
     m.v = InputFloat(1, (0, 2))
-    m.seatX = 0.84
-    m.seatY = 1.04
-    m.frontX = 1.42
-    m.frontY = 0.86
-
-    m.path2 = [(m.x + m.seatX, m.y + m.seatY)]
-    m.path3 = [(m.x + m.frontX, m.y + m.frontY)]
+    m.sicX_start = 0.84
+    m.sicY = 1.44
+    m.kormanX_start = 1.42
+    m.kormanY = 1.26
 
 def update(m):
     if (m.x > sirina_scene_u_metrima):
@@ -27,25 +24,22 @@ def update(m):
 
     m.x += m.v * m.dt
 
-    m.path2 += [(m.x + m.seatX, m.y + m.seatY)]
-    m.path3 += [(m.x + m.frontX, m.y + m.frontY)]
-
-def NacrtajPutanju(putanja, boja):
-    linija = PolyLine(putanja)
+def NacrtajLiniju(x_pocetak, x_pomeraj, y, boja):
+    x_kraj = x_pocetak + x_pomeraj
+    linija = PolyLine([(x_pocetak, y), (x_kraj, y)])
     linija.pen_color = boja
     linija.line_width = 0.01
     Draw(linija)
 
-    # center = path[-1]
-    # endPoint = Circle(center, 0.02)
-    # endPoint.fill_color = color
-    # Draw(endPoint)
+    krug = Circle((x_kraj, y), 0.02)
+    krug.fill_color = boja
+    Draw(krug)
 
 def draw(m):
     bicikl = Image('bicikl.png', (m.x, m.y), sirina_bicikla_u_metrima, visina_bicikla_u_metrima)
     Draw(bicikl)
 
-    NacrtajPutanju(m.path2, '#0000FF')
-    NacrtajPutanju(m.path3, '#00FF00')
+    NacrtajLiniju(m.sicX_start, m.x, m.sicY, '#0000FF')
+    NacrtajLiniju(m.kormanX_start, m.x, m.kormanY, '#00FF00')
 
 Run(setup, update, draw)
