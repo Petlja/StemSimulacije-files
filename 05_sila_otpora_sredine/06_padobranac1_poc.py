@@ -17,21 +17,21 @@ def setup(m):
     UpdatesPerFrame(10)
 
     m.vp = InputFloat(8, (0.1, 12)) # brzina pri kojoj se otvara padobran
-    m.uspori = InputList(1, [1, 2, 5, 10]) # usporava simulaciju zadati broj puta
 
     m.h_oblak = [0] * br_oblaka
     for i in range(br_oblaka):
         m.h_oblak[i] = y0_oblak[i]
 
+    m.x_avion = 1
+    m.h_avion = 1
     m.v = 0     # brzina padobranca (tj. svega ostalog u odnosu na padobranca)
     m.g = 10
     m.a = m.g   # pozitivno kada je vektor ubrzanja usmeren na dole
+    m.avion_vidljiv = True
     m.padobran = False
     m.s_ravn = 0
 
 def update(m):
-    dt = m.dt / m.uspori
-    
     if m.v >= m.vp:
         m.padobran = True
 
@@ -39,15 +39,21 @@ def update(m):
     f_otp = k_otp * m.v if m.padobran else 0
     m.a = (f - f_otp) / masa
     
-    dh = m.v * dt + m.a * dt * dt / 2
-    dv = m.a * dt
+    dh = m.v * m.dt + m.a * m.dt * m.dt / 2
+    dv = m.a * m.dt
 
-    # visini oblaka dodajemo dh jer smo u ref. sistemu padobranca,
+    # visini objekata dodajemo dh jer smo u ref. sistemu padobranca,
     # tj. padobranac stoji a sve ostalo se krece suprotno (na gore)
     for i in range(br_oblaka):
         m.h_oblak[i] += dh
         if m.h_oblak[i] > scena_h:
             m.h_oblak[i] -= (scena_h + oblak_h) # "novi oblak"
+
+    if m.avion_vidljiv:
+        m.x_avion += 0.05
+        m.h_avion += dh
+        if m.x_avion > scena_w or m.h_avion > scena_h:
+            m.avion_vidljiv = False
 
     m.v += dv
 
@@ -68,12 +74,16 @@ def draw(m):
         oblak = Image(ime_slike, (x_oblak[i], m.h_oblak[i]), oblak_w, oblak_h)
         Draw(oblak)
     
+    # avion
+    if m.avion_vidljiv:
+        avion = Image('plane.png', (m.x_avion, m.h_avion), 8, 4)
+        Draw(avion)
+
     # zemlja
     zemlja = Box((0, 0), scena_w, m.s_ravn)
     zemlja.fill_color = '#d9c9b6'
     Draw(zemlja)
     
-    # tekstualni podaci
     tekst_v = Text((7, 7.5), f'v ={abs(m.v):6.2f}')
     tekst_v.pen_color = '#000000'
     tekst_v.font_size = 0.5
