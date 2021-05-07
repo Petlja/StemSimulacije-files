@@ -40,13 +40,13 @@ def setup(m):
     m.y = 0 # polozaj dna bureta, na pocetku na povrsini tecnosti
 
 def update(m):
-    # racunanje novog stanja u lokalnim promenljivama
+    # racunanje promene stanja
     if m.y + visina_suda >= 0: # ako bure pluta (vrh je iznad povrsine)
         v_u_tecnosti = abs(m.y) * s0
         F_potiska = abs(m.y) * s0 * m.ro * g
     else: # tecnost preliva vrh bureta
         v_u_tecnosti = visina_suda * s0
-        F_potiska = 0 # u sud je usla tecnost, nema potiska
+        F_potiska = 0 # u bure je usla tecnost, nema potiska
     F_otpora = m.k_r * m.v 
     F_rez = g * m.маса_тега - F_otpora - F_potiska # nanize
     a = F_rez / m.маса_тега # nanize
@@ -65,8 +65,7 @@ def update(m):
         m.y = dno_y
 
     if m.y == dno_y or (abs(m.a) < 0.0001 and abs(m.v) < 0.00001):
-    # if m.y == dno_y or abs(g * m.маса_тега - F_potiska) < 1:
-        # bure je potonulo, ili je razlika sila manja od 0.001 KN
+        # bure je potonulo, ili se skoro sasvim zaustavilo
         Finish()
 
 def draw(m):
