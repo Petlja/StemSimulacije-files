@@ -32,10 +32,10 @@ def update(m):
 
 
 def draw(m):
-    scena = Image("romeo1_background.png", (0, 0), scena_w, scena_h)
+    pozadina = Image("romeo1_background.png", (0, 0), scena_w, scena_h)
     ruza = Image("rose.png", (0, m.h), scena_w, scena_h)
     romeo = Image("romeo1_romeo.png", (0, 0), scena_w, scena_h)
-    Draw(scena, ruza, romeo)
+    Draw(pozadina, ruza, romeo)
 
 
 Run(setup, update, draw)

@@ -18,7 +18,7 @@ def setup(m):
 
     m.h = 0 # visina slike ruze
     m.v = m.v0 # m.v ce biti brzina ruze navise (ako je negativna, nanize)
-    m.g = 10 # koristimo g = 10 zbog jednostavnijeg racunanja
+    m.g = 10 # koristimo g = 10 da bi se rezultat slagao sa jednostavnijim racunanjem
 
 def update(m):
     dv = - m.g * m.dt
@@ -38,7 +38,6 @@ def draw(m):
     gornji_deo = Image("romeo2_upper.png", (0, m.y_gornje_sl), scena_w, scena_h)
     donji_deo = Image("romeo2_lower.png", (0, 0), scena_w, scena_h)
     ruza = Image("rose.png", (0, m.h), scena_w, scena_h)
-    # ruza = Image("rose.png", (2.4, m.h - ruza_h/2), ruza_w, ruza_h)
     romeo = Image("romeo1_romeo.png", (0, 0), scena_w, scena_h)
 
     tekst_t = Text((3, 5.7), f't ={m.t:6.2f}s')

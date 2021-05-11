@@ -15,7 +15,7 @@ def setup(m):
 
     m.h = 0     # m.h ce biti visina slike ruze
     m.v = m.v0  # m.v ce biti brzina ruze
-    m.g = 10    # koristimo g = 10 zbog jednostavnijeg racunanja
+    m.g = 10    # koristimo g = 10 da bi se rezultat slagao sa jednostavnijim racunanjem
 
 
 def update(m):
@@ -32,10 +32,10 @@ def update(m):
 
 
 def draw(m):
-    scena = Image("romeo1_background.png", (0, 0), scena_w, scena_h)
+    pozadina = Image("romeo1_background.png", (0, 0), scena_w, scena_h)
     ruza = Image("rose.png", (0, m.h), scena_w, scena_h)
     romeo = Image("romeo1_romeo.png", (0, 0), scena_w, scena_h)
-    Draw(scena, ruza, romeo)
+    Draw(pozadina, ruza, romeo)
 
     tx = 2.8
     tekst_t = Text((tx, 5.7), f't ={m.t:6.2f}s')
