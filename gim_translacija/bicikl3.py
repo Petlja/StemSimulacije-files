@@ -4,7 +4,7 @@ sirina_bicikla_u_metrima = 2
 visina_bicikla_u_metrima = 1.1
 sirina_scene_u_metrima = sirina_bicikla_u_metrima * 3
 visina_scene_u_metrima = visina_bicikla_u_metrima * 2
-broj_piksela_po_metru = 200
+broj_piksela_po_metru = 150
 
 def setup(m):
     PixelsPerUnit(broj_piksela_po_metru)
@@ -13,10 +13,10 @@ def setup(m):
     m.x = 0
     m.y = 0.4
     m.v = InputFloat(1, (0, 2))
-    m.sicX_start = 0.84
-    m.sicY = 1.44
-    m.kormanX_start = 1.42
-    m.kormanY = 1.26
+    m.sicX_start = 0.9
+    m.sicY = 1.34
+    m.kormanX_start = 1.44
+    m.kormanY = 1.45
 
 def update(m):
     if (m.x > sirina_scene_u_metrima):

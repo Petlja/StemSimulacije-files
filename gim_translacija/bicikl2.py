@@ -4,7 +4,7 @@ sirina_bicikla_u_metrima = 2
 visina_bicikla_u_metrima = 1.1
 sirina_scene_u_metrima = sirina_bicikla_u_metrima * 3
 visina_scene_u_metrima = visina_bicikla_u_metrima * 2
-broj_piksela_po_metru = 200
+broj_piksela_po_metru = 150
 
 def setup(m):
     PixelsPerUnit(broj_piksela_po_metru)
