@@ -56,10 +56,10 @@ def draw(m):
     mreza = Image('grid.png', (-5, -5), 10, 10)
     brod = Image('spaceship.png', (m.x - brod_w/2, m.y - brod_h/2), brod_w, brod_h)
     
-    a_w, a_h  = 0.005 * m.Fa, 0.25 # velicina slike vatre iz motora A
-    b_w, b_h  = 0.005 * m.Fb, 0.25 # velicina slike vatre iz motora B
-    c_w, c_h  = 0.005 * m.Fc, 0.25 # velicina slike vatre iz motora C
-    d_w, d_h  = 0.005 * m.Fd, 0.25 # velicina slike vatre iz motora D
+    a_w, a_h  = 0.005 * m.Fa, 0.5 # velicina slike vatre iz motora A
+    b_w, b_h  = 0.005 * m.Fb, 0.5 # velicina slike vatre iz motora B
+    c_w, c_h  = 0.005 * m.Fc, 0.5 # velicina slike vatre iz motora C
+    d_w, d_h  = 0.005 * m.Fd, 0.5 # velicina slike vatre iz motora D
     a = Image('jet_fire.png', (m.x - brod_w/2 - a_w, m.y - a_h/2), a_w, a_h)
     b = Image('jet_fire.png', (m.x - brod_w/2 - b_w, m.y - b_h/2), b_w, b_h)
     c = Image('jet_fire.png', (m.x - brod_w/2 - c_w, m.y - c_h/2), c_w, c_h)

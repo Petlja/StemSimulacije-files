@@ -37,8 +37,9 @@ def update(m):
 def draw(m):
     sl_dole = Image("romeo3_lower.png", (0, 0), scena_w, scena_h)
     sl_gore = Image("romeo3_upper.png", (0, m.y_gornje_sl), scena_w, scena_h)
+    sl_tata = Image("romeo3_upper_b.png", (0, m.y_gornje_sl), scena_w, scena_h)
     balon = Image("romeo3_balloon.png", (0, m.h - h_b), scena_w, scena_h)
-    romeo = Image("romeo1_romeo.png", (0, 0), scena_w, scena_h)
+    romeo = Image("romeo3_romeo.png", (0, 0), scena_w, scena_h)
 
     tekst_t = Text((2.8, 5.7), f't ={m.t:6.2f}s')
     tekst_t.pen_color = '#000000'
@@ -46,6 +47,6 @@ def draw(m):
     tekst_v = Text((2.8, 5.5), f'v ={abs(m.v):6.2f}m/s')
     tekst_h = Text((2.8, 5.3), f'h ={(m.h-h0):6.2f}m')
 
-    Draw(sl_dole, sl_gore, balon, romeo, tekst_t, tekst_v, tekst_h)
+    Draw(sl_dole, sl_gore, sl_tata, romeo, balon, tekst_t, tekst_v, tekst_h)
 
 Run(setup, update, draw)

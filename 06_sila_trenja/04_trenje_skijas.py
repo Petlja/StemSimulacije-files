@@ -1,28 +1,24 @@
 import math
 from simanim import *
-
-scena_w = 70
+pozadina_w = 70
 w_skijas = 2
 
 # konstante sa slike
-scena_w_pix, scena_h_pix = 2874, 544
-scena_h = scena_h_pix/scena_w_pix * scena_w
-visina_podloge = 50/scena_w_pix * scena_w
-x_poc_pada = 123/scena_w_pix * scena_w
-x_kraj_pada = 680/scena_w_pix * scena_w
-y_poc_pada = (1 - 240/scena_h_pix) * scena_h
-y_kraj_pada = (1 - 380/scena_h_pix) * scena_h
-
+pozadina_w_pix, pozadina_h_pix = 700, 133
+pozadina_h = pozadina_h_pix/pozadina_w_pix * pozadina_w
+visina_podloge = 3
+scena_w, scena_h = pozadina_w, pozadina_h + visina_podloge
+x_poc_pada, y_poc_pada = 5.6, 6.7
+x_kraj_pada, y_kraj_pada = 17.8, 3.5
 pad_dx = x_kraj_pada - x_poc_pada
 pad_dy = y_poc_pada - y_kraj_pada
-
 tan_ugla = abs(pad_dy) / pad_dx
 cos_ugla = 1 / math.sqrt(tan_ugla * tan_ugla + 1)
 sin_ugla = cos_ugla * tan_ugla
 ugao = math.atan(tan_ugla)
 
-scena_w_pix_skijas, scena_h_pix_skijas = 658, 491
-h_skijas = w_skijas * scena_h_pix_skijas / scena_w_pix_skijas
+skijas_w_pix, skijas_h_pix = 658, 491
+h_skijas = w_skijas * skijas_h_pix / skijas_w_pix
 
 
 def setup(m):
@@ -99,9 +95,11 @@ def crtaj_vektor(x, y, dx, dy, boja):
 
 
 def draw(m):
-    # scena
-    scena = Image('skier_background.png', (0, 0), scena_w, scena_h)
-    Draw(scena)
+    # pozadina i podloga
+    pozadina = Image('skier_background.png', (0, visina_podloge), pozadina_w, pozadina_h)
+    podloga = Box( (0, 0), scena_w, y_poc_pada)
+    podloga.fill_color = m.boja_podloge
+    Draw(podloga, pozadina)
 
     # skijas
     skijas = Image('skier.png', (m.x - w_skijas, m.y), w_skijas, h_skijas)
@@ -112,25 +110,9 @@ def draw(m):
     else:
         sin, cos = 0, 1
         Draw(skijas)
-        
-    podloga = Box( (x_kraj_pada, y_kraj_pada - visina_podloge), scena_w - x_kraj_pada, visina_podloge)
-    podloga.fill_color = m.boja_podloge
-    Draw(podloga)
-        
-    
-    if False: # debug
-        # vektori brzine i ubrzanja
-        crtaj_vektor(m.x-w_skijas, m.y, 3 * m.a * cos, 3 * m.a * sin, '#ff0000')
-        crtaj_vektor(m.x, m.y, 3 * m.v * cos, 3 * m.v * sin, '#0000ff')
-        t_a = Text((45, 0.5), f'a = {m.a:5.2f}m/s²')
-        t_a.font_size = 1.0
-        t_a.pen_color = '#ff0000'
-        t_v = Text((60, 0.5), f'v = {m.v:5.2f}m/s')
-        t_v.pen_color = '#0000ff'
-        Draw(t_a, t_v)
 
     # tekst (v0, t, s za ravan deo posle pada)
-    t_teren = Text((scena_w / 2, y_kraj_pada - visina_podloge), m.терен)
+    t_teren = Text((scena_w / 2, 2), m.терен)
     t_teren.pen_color = '#000000'
     t_teren.font_size = 1.5
     Draw(t_teren)

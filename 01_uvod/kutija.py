@@ -5,12 +5,15 @@ def setup(m):
     m.y = 0
     m.v = 10
 
+
 def update(m):
     m.x += m.v * m.dt
+
 
 def draw(m):
     kutija = Box((m.x,m.y), 20, 10)
     kutija.fill_color = '#ff8800'
     Draw(kutija)
+
 
 Run(setup, update, draw)

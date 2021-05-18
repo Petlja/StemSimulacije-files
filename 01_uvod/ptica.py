@@ -33,8 +33,8 @@ def draw(m):
     slika_w = 20
     slika_h = slika_w * 55.4/78.7
     slika_x = m.x - slika_w/2
-    slika_y = m.y - slika_h/5
-    ptica = Image('ptica-leti-udesno.svg', (slika_x, slika_y), slika_w, slika_h)
+    slika_y = m.y - slika_h/8
+    ptica = Image('ptica-leti-udesno.png', (slika_x, slika_y), slika_w, slika_h)
     vec_v = Arrow((m.x, m.y), (m.x + m.v, m.y))
     vec_v.pen_color = '#0000a0'
     vec_v.line_width = 0.5

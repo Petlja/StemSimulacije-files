@@ -1,11 +1,12 @@
 import math
 from simanim import *
 
-scena_w, scena_h = 70, 13.25
+pozadina_w, pozadina_h = 70, 13.25
+visina_podloge = 3
+scena_w, scena_h = pozadina_w, pozadina_h + visina_podloge
 w_skijas, h_skijas = 2, 1.5
-visina_podloge = 1.22
-x_0 = 16.56 # x koordinata kraja strmog dela
-y_0 = 4     # y koordinata kraja strmog dela
+x_0 = 17.8 # x koordinata kraja strmog dela
+y_0 = 3.5  # y koordinata kraja strmog dela
 
 def setup(m):
     PixelsPerUnit(10)
@@ -20,7 +21,7 @@ def setup(m):
     boje = {"лед" : '#baf7f7', "сув снег" : '#f0f5f5', "влажан снег" : '#d5dede'}
     m.boja_podloge = boje[m.терен]
 
-    m.v0 = 7.63 # u ovoj simulaciji pocetna brzina moze da bude bilo koja vrednost
+    m.v0 = 7.32 # u ovoj simulaciji pocetna brzina moze da bude bilo koja vrednost
 
     m.x, m.y = x_0, y_0 # polozaj skijasa
     m.v = m.v0          # brzina skijasa
@@ -37,7 +38,7 @@ def update(m):
     m.v += dv
     m.x += dx
 
-    if m.x >= scena_w:
+    if m.x >= pozadina_w:
         Finish()
     elif m.v < 0.001:
         m.a = 0
@@ -45,13 +46,13 @@ def update(m):
 
 
 def draw(m):
-    scena = Image('skier_background.png', (0, 0), scena_w, scena_h)
+    pozadina = Image('skier_background.png', (0, visina_podloge), pozadina_w, pozadina_h)
     skijas = Image('skier.png', (m.x - w_skijas, m.y), w_skijas, h_skijas)
-    podloga = Box( (x_0, y_0 - visina_podloge), scena_w - x_0, visina_podloge)
+    podloga = Box( (0, 0), scena_w, 2*visina_podloge)
     podloga.fill_color = m.boja_podloge
-    Draw(scena, skijas, podloga)
+    Draw(podloga, pozadina, skijas)
 
-    t_teren = Text((scena_w / 2, y_0 - visina_podloge), m.терен)
+    t_teren = Text((pozadina_w / 2, visina_podloge - 1), m.терен)
     t_teren.pen_color = '#000000'
     t_teren.font_size = 1.5
 
