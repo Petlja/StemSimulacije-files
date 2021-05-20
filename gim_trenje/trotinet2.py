@@ -4,8 +4,8 @@ from simanim import *
 # Ukupno imamo 7 zgrada. Ako je svaka široka 6m, tada u sceni ukupno imamo 42 metra.
 # Visina scene je 2 puta manja od širine.
 sirina_scene_u_metrima = 42
-visina_scene_u_metrima = 21
-broj_piksela_u_metrima = 35
+visina_scene_u_metrima = 30
+broj_piksela_u_metrima = 15
 
 def setup(m):
     PixelsPerUnit(broj_piksela_u_metrima)

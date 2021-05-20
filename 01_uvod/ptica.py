@@ -31,7 +31,7 @@ def draw(m):
     Draw(oblak_deo1, oblak_deo2, oblak_deo3)
 
     slika_w = 20
-    slika_h = slika_w * 55.4/78.7
+    slika_h = slika_w * 193/222
     slika_x = m.x - slika_w/2
     slika_y = m.y - slika_h/8
     ptica = Image('ptica-leti-udesno.png', (slika_x, slika_y), slika_w, slika_h)
